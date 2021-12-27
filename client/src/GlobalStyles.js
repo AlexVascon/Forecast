@@ -7,6 +7,7 @@ html, body {
   margin: 0;
   height: -webkit-fill-available;
   position: fixed;
+  font-family: 'Roboto Mono', monospace;
 }
 
 `
