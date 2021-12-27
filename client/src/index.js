@@ -2,10 +2,13 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import App from './App'
 import reportWebVitals from './reportWebVitals'
+import {WeatherProviderWrapper} from './weatherContext'
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <WeatherProviderWrapper>
+      <App />
+    </WeatherProviderWrapper>
   </React.StrictMode>,
   document.getElementById('root')
 );

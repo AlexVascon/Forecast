@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React, {useState, useContext} from 'react'
 import { View } from '../components/View'
 import styled from 'styled-components'
 import arrowDownIconImage from '../assets/arrow-down.png'
@@ -10,18 +10,30 @@ import backgroundImage from '../assets/background-image.jpg'
 import FingerprintIcon from '@mui/icons-material/Fingerprint'
 import close from '../assets/close.png'
 import geoLocationIcon from '../assets/geo-location.png'
+import { WeatherContext } from '../weatherContext'
 
 const Transition = React.forwardRef(function Transition(props, ref) {
-  return <Slide direction="up" ref={ref} {...props} />;
-});
+  return <Slide direction='up' ref={ref} {...props} />
+})
 
 export default function Search() {
+  const {
+    fetchWeather,
+    setSearch,
+    fetchGeolocation,
+  } = useContext(WeatherContext)
+
   const [open, setOpen] = useState(false)
-
   const handleOpenSearchForm = () => setOpen(true)
-
   const handleCloseSearchScreen = () => setOpen(false)
+  const handleSearchChange = (e) => setSearch(e.target.value)
   
+  const submitRequestToAPI = (e) => {
+    if(e.target.name === 'geolocation') navigator.geolocation.getCurrentPosition(fetchGeolocation) // data passed into function
+    fetchWeather(e) // pass on event
+    setOpen(false)
+  }
+
   return (
     <View>
     <ArrowDownIcon />
@@ -34,11 +46,11 @@ export default function Search() {
      </CloseBar>
      <SearchContainer>
      <Text>Geolocation</Text>
-     <GeoLocationSearchButton />
+     <GeoLocationSearchButton name='geolocation' onClick={submitRequestToAPI} />
      <SearchForm>
      <FormGroup>
-     <Input type='text' placeholder='Or type city name'  />
-     <SubmitSearch fontSize='large' />
+     <Input type='text' placeholder='Or type city name' onChange={handleSearchChange} />
+     <SubmitSearch fontSize='large' name='search' onClick={submitRequestToAPI} />
      </FormGroup>
      </SearchForm>
      </SearchContainer>
@@ -125,10 +137,15 @@ width: 85%;
 padding: .5rem;
 border-radius: .5rem;
 background-color: rgba(158,131,184,0.23);
+color: white;
 &::placeholder {
   color: white;
   font-family: 'Roboto Mono', monospace;
 }
+&:focus {
+  outline: 1px solid white;
+}
+
 `
 const SubmitSearch = styled(FingerprintIcon)`
 color: white;
