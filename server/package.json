@@ -11,6 +11,7 @@
   "author": "Alex Vasconcelod de Almeida",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.24.0",
     "nodemon": "^2.0.15"
   },
   "type": "module"
