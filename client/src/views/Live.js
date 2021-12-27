@@ -1,4 +1,4 @@
-import React, {useState, useContext} from 'react'
+import React, {useContext} from 'react'
 import { View } from '../components/View'
 import dayjs from 'dayjs'
 import styled from 'styled-components'
@@ -86,7 +86,7 @@ export default function Live() {
       icon: uvIndexIcon,
       text: 'UV index:',
       data: live?.uvi,
-      symbol: '%',
+      symbol: '',
     },
   ]
 
@@ -131,8 +131,7 @@ export default function Live() {
         </MainImageColumn>
         <Column>
         <List>
-        {live && upperWeatherStats.map(stat => {
-          return (
+        {live && upperWeatherStats.map(stat => (
           <ListRow key={stat.icon}>
             <SubContainer>
               <Icon src={stat.icon} />
@@ -140,30 +139,27 @@ export default function Live() {
             </SubContainer>
             <Text>{stat.data}<small>{stat.symbol}</small></Text>
           </ListRow>
-          )
-        })}
+        ))}
         </List>
         </Column>
       </Row>
       <Row>
-      {live && lowerWeatherStatsOne.map(stat =>  (
-        <LowerSubContainer>
+      {live && lowerWeatherStatsOne.map(stat => (
+        <LowerSubContainer key={stat.text}>
         <LowerIcon src={stat.icon} />
         <LowerText>{stat.text}</LowerText>
         <LowerText>{stat.data}</LowerText>
         </LowerSubContainer>
-      )
-      )}
+      ))}
       </Row>
       <Row>
       {live && lowerWeatherStatsTwo.map(stat =>  (
-        <LowerSubContainer>
+        <LowerSubContainer key={stat.text}>
         <LowerIcon src={stat.icon} />
         <LowerText>{stat.text}</LowerText>
-        <LowerText>{stat.data}</LowerText>
+        <LowerText>{stat.data}&#176;C</LowerText>
         </LowerSubContainer>
-      )
-      )}
+      ))}
       </Row>
       </LiveWeatherContainer>
     </View>

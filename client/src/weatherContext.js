@@ -28,26 +28,30 @@ export default function WeatherProviderWrapper(props) {
     }
   }
 
-  const fetchGeolocation = (position) => {
-    console.log('here:', position)
-    setGeolocation(position)
-  }
+  const fetchGeolocation = (position) => setGeolocation(position)
+  
 
-  const container = document.getElementById('app')
+  const determinePageIndex = (elementIdTag) => {
+    if(elementIdTag === 'live') return 1
+    if(elementIdTag === 'hourly-forecast') return 2
+    if(elementIdTag === 'week-forecast') return 3
+    return 0
+  }
+  const appContainer = document.getElementById('app')
   let timer = null
 
-  if (container) {
-    container.addEventListener('scroll', function () {
+  if (appContainer) { // each child element (view) of appContainer has a unique id
+    appContainer.addEventListener('scroll', () => {
       clearTimeout(timer)
-      timer = setTimeout(() => {
-        [].slice.call(container?.children).forEach((child) => {
-          if (
+      timer = setTimeout(() => { // waits for movement to stop before calculating
+        [].slice.call(appContainer?.children).forEach((child) => { // some black magic empty array contains secrets
+          if ( // calculates screen movement
             Math.abs(
               child.getBoundingClientRect().left -
-                container?.getBoundingClientRect().left
+              appContainer?.getBoundingClientRect().left
             ) < 10
           ) {
-            setPage(child.children[0].className)
+            setPage(determinePageIndex(child.id))
           }
         })
       }, 100)
