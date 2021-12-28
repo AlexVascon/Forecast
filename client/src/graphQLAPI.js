@@ -75,7 +75,7 @@ const fetchWeatherFromAPI = async (geolocation, searchInput) => {
        dt
        sunrise
        sunset
-       moon_phase
+       pop
        temp {
         min
         max

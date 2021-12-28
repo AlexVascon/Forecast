@@ -7,7 +7,7 @@ export default function WeatherProviderWrapper(props) {
   const [geolocation, setGeolocation] = useState(null)
   const [live, setLive] = useState(undefined)
   const [hourlyForecast, setHourlyForecast] = useState(undefined)
-  const [week, setWeek] = useState(undefined)
+  const [weekForecast, setWeekForecast] = useState(undefined)
   const [page, setPage] = useState(0)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState(false)
@@ -18,7 +18,7 @@ export default function WeatherProviderWrapper(props) {
       const { data } = await getWeather(geolocation, search)
       setLive(data?.data?.current)
       setHourlyForecast(data?.data?.hourly)
-      setWeek(data?.data?.daily)
+      setWeekForecast(data?.data?.daily)
       if (geolocation) setSearch(data?.data?.timezone?.split('/')[1]) // header name comes from search
       setError(false)
     } catch (err) {
@@ -41,7 +41,7 @@ export default function WeatherProviderWrapper(props) {
   let timer = null
 
   if (appContainer) { // each child element (view) of appContainer has a unique id
-    appContainer.addEventListener('scroll', () => {
+    appContainer.addEventListener('scroll', () => { // check screen change by movement
       clearTimeout(timer)
       timer = setTimeout(() => { // waits for movement to stop before calculating
         [].slice.call(appContainer?.children).forEach((child) => { // some black magic empty array contains secrets
@@ -51,7 +51,7 @@ export default function WeatherProviderWrapper(props) {
               appContainer?.getBoundingClientRect().left
             ) < 10
           ) {
-            setPage(determinePageIndex(child.id))
+            setPage(determinePageIndex(child.id)) // function set page index based on id
           }
         })
       }, 100)
@@ -68,7 +68,7 @@ export default function WeatherProviderWrapper(props) {
         page,
         live,
         hourlyForecast,
-        week,
+        weekForecast,
         setGeolocation,
         geolocation,
         fetchGeolocation,
