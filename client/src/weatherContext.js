@@ -6,7 +6,7 @@ export default function WeatherProviderWrapper(props) {
   const [search, setSearch] = useState('')
   const [geolocation, setGeolocation] = useState(null)
   const [live, setLive] = useState(undefined)
-  const [forecast, setForecast] = useState(undefined)
+  const [hourlyForecast, setHourlyForecast] = useState(undefined)
   const [week, setWeek] = useState(undefined)
   const [page, setPage] = useState(0)
   const [isLoading, setIsLoading] = useState(false)
@@ -17,7 +17,7 @@ export default function WeatherProviderWrapper(props) {
     try {
       const { data } = await getWeather(geolocation, search)
       setLive(data?.data?.current)
-      setForecast(data?.data?.hourly)
+      setHourlyForecast(data?.data?.hourly)
       setWeek(data?.data?.daily)
       if (geolocation) setSearch(data?.data?.timezone?.split('/')[1]) // header name comes from search
       setError(false)
@@ -67,7 +67,7 @@ export default function WeatherProviderWrapper(props) {
         setPage,
         page,
         live,
-        forecast,
+        hourlyForecast,
         week,
         setGeolocation,
         geolocation,
