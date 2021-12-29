@@ -6,6 +6,7 @@ import cloudIcon from '../assets/cloud-icon.png'
 import windSpeedIcon from '../assets/wind-speed-icon.png'
 import windDirectionIcon from '../assets/compass-icon.png'
 import humidityIcon from '../assets/humidity-icon.png'
+import rainIcon from '../assets/rain.png'
 import uvIndexIcon from '../assets/uv-icon.png'
 import sunRiseIcon from '../assets/sunrise-icon.png'
 import sunSetIcon from '../assets/sunset-icon.png'
@@ -20,9 +21,10 @@ import sunClouds from '../assets/sun-clouds.png'
 import dayRain from '../assets/rain-day.png'
 import nightRain from '../assets/rain-night.png'
 import { WeatherContext } from '../weatherContext'
+import SubHeading from '../components/SubHeading'
 
 export default function Live() {
-  const { live, week } = useContext(WeatherContext)
+  const { live, weekForecast } = useContext(WeatherContext)
 
   const compassDirections = ['N', 'NNE', 'NE', 'ENE', 'E', 'ESE', 'SE', 'SSE', 'S', 'SSW', 'SW', 'WSW', 'W', 'WNW', 'NW', 'NNW', 'N' ]
   const calculateCompassDirection = (windDirection) => {
@@ -112,17 +114,18 @@ export default function Live() {
       {
         icon: maxTempIcon,
         text: 'Max-temp',
-        data: week && week[0].temp.max,
+        data: weekForecast && weekForecast[0] && weekForecast[0].temp?.max,
       },
       {
         icon: minTempIcon,
         text: 'Min-temp',
-        data: week && week[0].temp.min,
+        data: weekForecast && weekForecast[0] && weekForecast[0].temp?.min,
       },
   ]
 
   return (
-    <View id='live'>
+    <View>
+    <SubHeading subtext={dayjs.unix(live?.dt).format("ddd, HH:mm")} />
       <LiveWeatherContainer>
       <Row>
         <MainImageColumn>
@@ -160,6 +163,11 @@ export default function Live() {
         <LowerText>{stat.data}&#176;C</LowerText>
         </LowerSubContainer>
       ))}
+      <LowerSubContainer>
+        <LowerIcon src={rainIcon} />
+        <LowerText>Rain</LowerText>
+        <LowerText>{weekForecast && weekForecast[0]?.rain}mm</LowerText>
+        </LowerSubContainer>
       </Row>
       </LiveWeatherContainer>
     </View>
@@ -170,6 +178,10 @@ const LiveWeatherContainer = styled.div`
 background-color: rgba(137, 102, 145, 0.212);
 width: 95%;
 border-radius: .5rem;
+@media(min-width: 415px) {
+  top: 15%;
+  max-width: 30rem;
+}
 `
 const Row = styled.section`
 flex: 1;

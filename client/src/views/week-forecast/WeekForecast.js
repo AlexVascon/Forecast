@@ -18,6 +18,7 @@ import {
   Icon,
   Text
 } from './WeekForecastStyling'
+import SubHeading from '../../components/SubHeading'
 
 export default function WeekForecast() {
   const { weekForecast } = useContext(WeatherContext)
@@ -25,11 +26,12 @@ export default function WeekForecast() {
   const convertTimeStamp = (timestamp) => dayjs.unix(timestamp).format('HH:mm')
 
   return (
-    <View id='week-forecast'>
+    <View>
+      <SubHeading subtext='Next 7 days' />
       <DaysInWeekList>
         {weekForecast &&
           weekForecast.map((day) => (
-            <DayRow>
+            <DayRow key={day.dt}>
               <DayNameContainer>
                 <MainIcon
                   src={`http://openweathermap.org/img/wn/${day.weather[0].icon}.png`}
@@ -39,11 +41,11 @@ export default function WeekForecast() {
               </DayNameContainer>
               <SubContainer>
                 <Icon src={maxTempIcon} />
-                <Text>{Math.round(day.temp.max)}&#176C</Text>
+                <Text>{Math.round(day.temp.max)}&#176;C</Text>
               </SubContainer>
               <SubContainer>
                 <Icon src={minTempIcon} />
-                <Text>{Math.round(day.temp.min)}&#176C</Text>
+                <Text>{Math.round(day.temp.min)}&#176;C</Text>
               </SubContainer>
               <SubContainer>
                 <Icon src={sun} />

@@ -65,6 +65,7 @@ const fetchWeatherFromAPI = async (geolocation, searchInput) => {
        wind_deg
        clouds
        uvi
+       pop
        weather {
          id
          icon
@@ -76,6 +77,7 @@ const fetchWeatherFromAPI = async (geolocation, searchInput) => {
        sunrise
        sunset
        pop
+       rain
        temp {
         min
         max

@@ -8,7 +8,6 @@ export default function WeatherProviderWrapper(props) {
   const [live, setLive] = useState(undefined)
   const [hourlyForecast, setHourlyForecast] = useState(undefined)
   const [weekForecast, setWeekForecast] = useState(undefined)
-  const [page, setPage] = useState(0)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState(false)
 
@@ -29,34 +28,6 @@ export default function WeatherProviderWrapper(props) {
   }
 
   const fetchGeolocation = (position) => setGeolocation(position)
-  
-
-  const determinePageIndex = (elementIdTag) => {
-    if(elementIdTag === 'live') return 1
-    if(elementIdTag === 'hourly-forecast') return 2
-    if(elementIdTag === 'week-forecast') return 3
-    return 0
-  }
-  const appContainer = document.getElementById('app')
-  let timer = null
-
-  if (appContainer) { // each child element (view) of appContainer has a unique id
-    appContainer.addEventListener('scroll', () => { // check screen change by movement
-      clearTimeout(timer)
-      timer = setTimeout(() => { // waits for movement to stop before calculating
-        [].slice.call(appContainer?.children).forEach((child) => { // some black magic empty array contains secrets
-          if ( // calculates screen movement
-            Math.abs(
-              child.getBoundingClientRect().left -
-              appContainer?.getBoundingClientRect().left
-            ) < 10
-          ) {
-            setPage(determinePageIndex(child.id)) // function set page index based on id
-          }
-        })
-      }, 100)
-    })
-  }
 
   return (
     <WeatherContext.Provider
@@ -64,8 +35,6 @@ export default function WeatherProviderWrapper(props) {
         setSearch,
         search,
         fetchWeather,
-        setPage,
-        page,
         live,
         hourlyForecast,
         weekForecast,
