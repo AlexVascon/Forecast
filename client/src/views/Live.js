@@ -125,7 +125,7 @@ export default function Live() {
 
   return (
     <View>
-    <SubHeading subtext={dayjs.unix(live?.dt).format("ddd, HH:mm")} />
+   {live && <SubHeading subtext={dayjs.unix(live?.dt).format("ddd, HH:mm")} /> }
       <LiveWeatherContainer>
       <Row>
         <MainImageColumn>
