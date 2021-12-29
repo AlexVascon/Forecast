@@ -74,6 +74,10 @@ width: 3.5rem;
 height: 3.5rem;
 border: 8px solid RGB(66, 48, 79);
 outline: 1px solid white;
+&:hover {
+  cursor: pointer;
+  box-shadow: 0px 0px 20px 5px rgba(255,255,255,0.5)
+}
 `
 const CloseBar = styled(AppBar)`
 background-color: rgba(51,38,63,0.90)
@@ -89,6 +93,9 @@ background-size: contain;
 color: white;
 background-color: transparent;
 border: none;
+&:hover {
+  cursor: pointer;
+}
 `
 const SearchContainer = styled.div`
 flex: 1;
@@ -117,6 +124,11 @@ background-position-x: center;
 background-position-y: center;
 background-repeat: no-repeat;
 margin-bottom: 2rem;
+border-radius: 50%;
+&:hover {
+  cursor: pointer;
+  box-shadow: 0px 0px 20px 5px rgba(255,255,255,0.5);
+}
 `
 const SearchForm = styled.form`
 width: 80%;
@@ -149,6 +161,11 @@ color: white;
 `
 const SubmitSearch = styled(FingerprintIcon)`
 color: white;
+border-radius: 50%;
+&:hover {
+  cursor: pointer;
+  box-shadow: 0px 0px 20px 5px rgba(255,255,255,0.5);
+}
 `
 
 

@@ -1,6 +1,6 @@
 import React, {useContext} from 'react'
 import { AppContainer } from './components/AppContainer'
-import Nav from './components/Nav'
+import Header from './components/Header'
 import { GlobalStyle } from './GlobalStyles'
 import HourlyForecast from './views/hourly-forecast/HourlyForecast'
 import Live from './views/Live'
@@ -13,7 +13,7 @@ function App() {
   return (
     <AppContainer id='app'>
     <GlobalStyle />
-    <Nav />
+    <Header /> 
     <Search />
     {live && <Live />}
     {hourlyForecast && <HourlyForecast />}

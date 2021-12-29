@@ -43,13 +43,13 @@ export const List = styled.ul`
   width: 100%;
   list-style-type: none;
   padding: 0;
-  height: 20rem;
+  height: 22rem;
 `
 export const HourlyInformationContainer = styled.div`
   position: absolute;
   bottom: 20%;
   width: 90vw;
-  height: 20rem;
+  height: 23.5rem;
   border-radius: 0.5rem;
   background-color: rgba(137, 102, 145, 0.212);
   overflow-y: hidden;
@@ -69,7 +69,7 @@ export const HourlyInformation = styled.div`
   bottom: 15%;
   width: 70%;
   margin: auto;
-  height: 14rem;
+  height: 18rem;
   align-items: center;
   font-size: 1rem;
   justify-content: left;
@@ -89,7 +89,7 @@ export const HourList = styled.ul`
   justify-content: flex-start;
   align-items: flex-start;
   width: 25%;
-  height: 20rem;
+  height: 23.5rem;
   top: 0%;
   right: 0%;
   margin: auto;
@@ -129,7 +129,7 @@ export const PaddingTop = styled.div`
   right: 0%;
   width: 100vw;
   height: 5rem;
-  padding: 3.6rem 0rem;
+  padding: 4.2rem 0rem;
   @media only screen and (min-width: 415px) {
     padding: 4.6rem 0rem;
     width: 50%;
@@ -143,7 +143,7 @@ export const PaddingBottom = styled.div`
   right: 0%;
   width: 100vw;
   height: 10rem;
-  padding: 4.1rem 0;
+  padding: 5rem 0;
   @media only screen and (min-width: 415px) {
     padding: 5.4rem 0;
     width: 50%;
@@ -156,6 +156,9 @@ export const ListRow = styled.li`
   justify-content: space-between;
   align-items: center;
   border-bottom: 1px solid rgba(255, 255, 255, 0.418);
+  :last-child {
+    border-bottom: none;
+  }
 `
 export const SubContainer = styled.div`
   display: flex;
