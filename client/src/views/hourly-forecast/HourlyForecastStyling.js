@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 import { Line } from 'react-chartjs-2'
 
+// huge file, moved styling here
 export const GraphsContainer = styled.section`
   display: flex;
   justify-content: flex-end;
@@ -191,7 +192,6 @@ export const HourHighlight = styled.span`
   @media only screen and (min-width: 415px) {
     top: 40%;
     width: 30%;
-    left: 70%
+    left: 70%;
   }
 `
-

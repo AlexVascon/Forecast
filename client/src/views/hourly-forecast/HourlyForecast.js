@@ -30,13 +30,14 @@ import {
   SubContainer,
   Icon,
   Text,
-  HourHighlight
+  HourHighlight,
 } from '../hourly-forecast/HourlyForecastStyling'
 import SubHeading from '../../components/SubHeading'
 
 export default function HourlyForecast() {
   const { hourlyForecast, live } = useContext(WeatherContext)
-  const [twentieFourHourForecast, setTwentieFourHourForecast] = useState(undefined)
+  const [twentieFourHourForecast, setTwentieFourHourForecast] =
+    useState(undefined)
   const [temperatureEachHour, setTemperatureEachHour] = useState(undefined)
   const [maxTempValue, setMaxTempValue] = useState(undefined)
   const [minTempValue, setMinTempValue] = useState(undefined)
@@ -53,7 +54,7 @@ export default function HourlyForecast() {
 
   // get first 24 hours (48 length)
   useEffect(() => {
-    if(hourlyForecast && !twentieFourHourForecast?.length) {
+    if (hourlyForecast && !twentieFourHourForecast?.length) {
       const filterFirstTwentieFourHours = hourlyForecast.filter(
         (hour, index) => index > 0 && index < 24
       )
@@ -61,48 +62,84 @@ export default function HourlyForecast() {
     }
   }, [hourlyForecast, twentieFourHourForecast])
 
-  useEffect(() => {   // set chart values (requires filtering through each value)
-    if(twentieFourHourForecast) {
-      if(!temperatureEachHour) setTemperatureEachHour(twentieFourHourForecast.map((hour) => Math.round(hour.temp)))
-      if(!maxTempValue)  setMaxTempValue(Math.round( // control line graph spread
-        twentieFourHourForecast.reduce((prev, curr) =>
-          Math.round(curr.temp) > Math.round(prev.temp) ? curr : prev
-        ).temp
-      ))
-      if(!minTempValue) setMinTempValue(Math.round( // close distance from bottom border
-        twentieFourHourForecast.reduce((prev, curr) =>
-          Math.round(curr.temp) < Math.round(prev.temp) ? curr : prev
-        ).temp
-      ))
-      if(!chartLabels) setChartLabels(twentieFourHourForecast.map((hour) => getHour(hour.dt)))
-      if(!hourInformation) setHourInformation(twentieFourHourForecast[0])
+  useEffect(() => {
+    // set chart values (requires filtering through each value)
+    if (twentieFourHourForecast) {
+      if (!temperatureEachHour)
+        setTemperatureEachHour(
+          twentieFourHourForecast.map((hour) => Math.round(hour.temp))
+        )
+      if (!maxTempValue)
+        setMaxTempValue(
+          Math.round(
+            // control line graph spread
+            twentieFourHourForecast.reduce((prev, curr) =>
+              Math.round(curr.temp) > Math.round(prev.temp) ? curr : prev
+            ).temp
+          )
+        )
+      if (!minTempValue)
+        setMinTempValue(
+          Math.round(
+            // close distance from bottom border
+            twentieFourHourForecast.reduce((prev, curr) =>
+              Math.round(curr.temp) < Math.round(prev.temp) ? curr : prev
+            ).temp
+          )
+        )
+      if (!chartLabels)
+        setChartLabels(twentieFourHourForecast.map((hour) => getHour(hour.dt)))
+      if (!hourInformation) setHourInformation(twentieFourHourForecast[0])
     }
-  }, [chartLabels, twentieFourHourForecast, temperatureEachHour, maxTempValue, minTempValue, hourInformation])
+  }, [
+    chartLabels,
+    twentieFourHourForecast,
+    temperatureEachHour,
+    maxTempValue,
+    minTempValue,
+    hourInformation,
+  ])
 
-  useEffect(() => {   // load chart once all values are set
-    if(temperatureEachHour && chartLabels && hourInformation && maxTempValue && minTempValue) {
+  useEffect(() => {
+    // load chart once all values are set
+    if (
+      temperatureEachHour &&
+      chartLabels &&
+      hourInformation &&
+      maxTempValue &&
+      minTempValue
+    ) {
       setLoadChart(true)
     }
-  }, [temperatureEachHour,chartLabels, hourInformation, maxTempValue, minTempValue])
+  }, [
+    temperatureEachHour,
+    chartLabels,
+    hourInformation,
+    maxTempValue,
+    minTempValue,
+  ])
 
-  useEffect(() => { // update dynamic point
-    if(twentieFourHourForecast) {
-      setScrollPointerPosition(twentieFourHourForecast.map((hour, index) =>
-      index === hourIndex ? 5 : 0
-      ))
+  useEffect(() => {
+    // update dynamic point
+    if (twentieFourHourForecast) {
+      setScrollPointerPosition(
+        twentieFourHourForecast.map((hour, index) =>
+          index === hourIndex ? 5 : 0
+        )
+      )
     }
   }, [hourIndex, twentieFourHourForecast])
 
   const getHour = (date) => dayjs.unix(date).format('H')
   const setPointVisuals = (moonVal, sunVal, elseVal) => {
-    if(twentieFourHourForecast) {
-    return twentieFourHourForecast.map((hour) => {
+    if (twentieFourHourForecast) {
+      return twentieFourHourForecast.map((hour) => {
         if (getHour(hour.dt) === getHour(live.sunset)) return moonVal
         if (getHour(hour.dt) === getHour(live.sunrise)) return sunVal
         return elseVal
       })
     }
-   return elseVal
+    return elseVal
   }
 
   const compassDirections = [
@@ -180,13 +217,13 @@ export default function HourlyForecast() {
     if (result >= 0 && result <= 24) {
       setHourIndex(result)
       setHourInformation(twentieFourHourForecast[result])
-    } 
+    }
   }
 
   return (
     <View>
-    <SubHeading subtext='Next 24 hours' />
-        <GraphsContainer>
+      <SubHeading subtext='Next 24 hours' />
+      <GraphsContainer>
         {loadChart && (
           <WhitePointersGraph
             data={{
@@ -269,7 +306,8 @@ export default function HourlyForecast() {
                     align: 'end',
                     anchor: 'center',
                     clamp: true,
-                    formatter: function (value, context) {  // determine whixh point icon to display time  
+                    formatter: function (value, context) {
+                      // determine which point icon to display time
                       const HourOfTemp =
                         context.chart.data.labels[context.dataIndex]
                       if (HourOfTemp === getHour(live.sunset))
@@ -353,7 +391,6 @@ export default function HourlyForecast() {
                   easing: 'linear',
                   from: 4,
                   to: 0,
-                 
                 },
               },
               plugins: {
@@ -397,7 +434,7 @@ export default function HourlyForecast() {
             }}
           />
         )}
-        </GraphsContainer>
+      </GraphsContainer>
       <HourlyInformationContainer>
         <HourlyInformation>
           <List>
@@ -431,5 +468,3 @@ export default function HourlyForecast() {
     </View>
   )
 }
-
-

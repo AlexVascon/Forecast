@@ -1,4 +1,4 @@
-import React, { createContext, useState } from 'react'
+import React, { createContext, useState, useEffect } from 'react'
 import getWeather from './graphQLAPI'
 
 const WeatherContext = createContext()
@@ -10,9 +10,9 @@ export default function WeatherProviderWrapper(props) {
   const [weekForecast, setWeekForecast] = useState(undefined)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState(false)
+  const [isGeolocation, setIsGeolocation] = useState(false)
 
-  const fetchWeather = async (e) => {
-    e.preventDefault()
+  const fetchWeather = async () => {
     try {
       const { data } = await getWeather(geolocation, search)
       setLive(data?.data?.current)
@@ -27,7 +27,12 @@ export default function WeatherProviderWrapper(props) {
     }
   }
 
-  const fetchGeolocation = (position) => setGeolocation(position)
+  useEffect(() => {
+    if (isGeolocation) {
+      fetchWeather()
+      setIsGeolocation(false)
+    }
+  }, [isGeolocation])
 
   return (
     <WeatherContext.Provider
@@ -40,9 +45,10 @@ export default function WeatherProviderWrapper(props) {
         weekForecast,
         setGeolocation,
         geolocation,
-        fetchGeolocation,
         isLoading,
+        setIsLoading,
         error,
+        setIsGeolocation,
       }}
     >
       {props.children}

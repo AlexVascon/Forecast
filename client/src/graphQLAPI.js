@@ -1,12 +1,14 @@
-import { ApolloClient, InMemoryCache, gql,  } from '@apollo/client'
+import { ApolloClient, InMemoryCache, gql } from '@apollo/client'
 import { RestLink } from 'apollo-link-rest'
 
-const weatherAPIBaseURL = new RestLink({ uri: 'http://localhost:5005' })
+const weatherAPIBaseURL = new RestLink({
+  uri: `${process.env.REACT_APP_SERVER_URL}`,
+})
 
-const options = {resultCaching: false}
+const options = { resultCaching: false }
 const client = new ApolloClient({
-    cache: new InMemoryCache(options),
-    link: weatherAPIBaseURL
+  cache: new InMemoryCache(options),
+  link: weatherAPIBaseURL,
 })
 
 const fetchLatitudeAndLongitud = async (location) => {
@@ -21,21 +23,21 @@ const fetchLatitudeAndLongitud = async (location) => {
     }
   }
   `
-  return client.query({query, fetchPolicy: 'network-only' })
+  return client.query({ query, fetchPolicy: 'network-only' })
 }
 
 const fetchWeatherFromAPI = async (geolocation, searchInput) => {
   let latitude
   let longitude
-  if(geolocation) {
-    latitude = geolocation.lat
-    longitude = geolocation.lon
+  if (geolocation) {
+    latitude = geolocation.coords.latitude
+    longitude = geolocation.coords.longitude
   } else {
-      const { data } = await fetchLatitudeAndLongitud(searchInput)
-      latitude = data.data.coord.lat
-      longitude = data.data.coord.lon
+    const { data } = await fetchLatitudeAndLongitud(searchInput)
+    latitude = data.data.coord.lat
+    longitude = data.data.coord.lon
   }
-  
+
   const query = gql`
   query weather {
     data @rest(type: "", path: "/weather/${latitude}/${longitude}") {
@@ -98,7 +100,7 @@ const fetchWeatherFromAPI = async (geolocation, searchInput) => {
     }
   }
   `
-  return client.query({query, fetchPolicy: 'network-only' })
+  return client.query({ query, fetchPolicy: 'network-only' })
 }
 
 export default fetchWeatherFromAPI
