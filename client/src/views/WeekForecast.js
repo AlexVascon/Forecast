@@ -47,7 +47,7 @@ export default function WeekForecast() {
               </SubContainer>
               <SubContainer>
                 <Icon src={precipitationIcon} />
-                <Text>{Math.round(day.pop)}%</Text>
+                <Text>{day.pop}%</Text>
               </SubContainer>
             </DayRow>
           ))}

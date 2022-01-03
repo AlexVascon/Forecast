@@ -2,7 +2,6 @@ import 'dotenv/config'
 import path from 'path'
 import express from 'express'
 const server = express()
-import cors from 'cors'
 import cookieParser from 'cookie-parser'
 import weatherRoutes from './routes.js'
 
