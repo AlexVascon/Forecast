@@ -2,7 +2,7 @@
   "name": "forecast-new",
   "version": "1.0.0",
   "description": "weather forecast web app",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "start": "node server/server",
     "server": "nodemon server/server",

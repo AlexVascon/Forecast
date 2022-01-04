@@ -1,11 +1,19 @@
 import 'dotenv/config'
 import path from 'path'
 import express from 'express'
+import cors from 'cors'
 const server = express()
 import cookieParser from 'cookie-parser'
 import weatherRoutes from './routes.js'
 
 server.set('trust proxy', 1)
+
+server.use(
+  cors({
+    origin: process.env.ORIGIN,
+    credentials: true,
+  })
+)
 
 server.use(express.json())
 server.use(express.urlencoded({ extended: false }))
