@@ -2,7 +2,7 @@ import { ApolloClient, InMemoryCache, gql } from '@apollo/client'
 import { RestLink } from 'apollo-link-rest'
 
 const weatherAPIBaseURL = new RestLink({
-  uri: `${process.env.REACT_APP_SERVER_URL}`,
+  uri: process.env.REACT_APP_SERVER_URL,
 })
 
 const options = { resultCaching: false }
